@@ -1,0 +1,187 @@
+--[[
+	Author: Noya
+	Date: 9.1.2015.
+	Plays a looping and stops after the duration
+]]
+function AcidSpraySound( event )
+	local target = event.target
+	local ability = event.ability
+	local duration = ability:GetLevelSpecialValueFor( "duration", ability:GetLevel() - 1 )
+
+	target:EmitSound("Hero_Sniper.ShrapnelShatter")
+
+	-- Stops the sound after the duration, a bit early to ensure the thinker still exists
+	Timers:CreateTimer(duration-0.1, function() 
+		target:StopSound("Hero_Sniper.ShrapnelShatter") 
+	end)
+
+end
+
+function madokarule( event )
+	local caster = event.caster
+
+	print("stronk dispel")
+
+	-- Strong Dispel
+	local RemovePositiveBuffs = true
+	local RemoveDebuffs = false
+	local BuffsCreatedThisFrameOnly = false
+	local RemoveStuns = false
+	local RemoveExceptions = false
+	caster:Purge( RemovePositiveBuffs, RemoveDebuffs, BuffsCreatedThisFrameOnly, RemoveStuns, RemoveExceptions)
+end
+
+function madokasave( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local maxStack = ability:GetLevelSpecialValueFor("madokamax", (ability:GetLevel() - 1))
+	local modifierCount = caster:GetModifierCount()
+	local currentStack = 0
+	local modifierBuffName = "modifier_madokasave_buff"
+	local modifierStackName = "modifier_madokasave_stack"
+	local modifierName
+
+	-- Always remove the stack modifier
+	caster:RemoveModifierByName(modifierStackName) 
+
+	-- Counts the current stacks
+	for i = 0, modifierCount do
+		modifierName = caster:GetModifierNameByIndex(i)
+
+		if modifierName == modifierBuffName then
+			currentStack = currentStack + 1
+		end
+	end
+
+	-- Remove all the old buff modifiers
+	for i = 0, currentStack do
+		print("Removing modifiers")
+		caster:RemoveModifierByName(modifierBuffName)
+	end
+
+	-- Always apply the stack modifier 
+	ability:ApplyDataDrivenModifier(caster, caster, modifierStackName, {})
+
+	-- Reapply the maximum number of stacks
+	if currentStack >= maxStack then
+		caster:SetModifierStackCount(modifierStackName, ability, maxStack)
+
+		-- Apply the new refreshed stack
+		for i = 1, maxStack do
+			ability:ApplyDataDrivenModifier(caster, caster, modifierBuffName, {})
+		end
+	else
+		-- Increase the number of stacks
+		currentStack = currentStack + 1
+
+		caster:SetModifierStackCount(modifierStackName, ability, currentStack)
+
+		-- Apply the new increased stack
+		for i = 1, currentStack do
+			ability:ApplyDataDrivenModifier(caster, caster, modifierBuffName, {})
+		end
+	end
+end
+
+function madokalost( event )
+	local caster = event.caster
+	local ability = event.ability
+	local modifier = event.modifier
+	local madoka_release = ability:GetLevelSpecialValueFor( "madoka_release", ability:GetLevel() - 1 )
+
+	local current_stack = caster:GetModifierStackCount( modifier, ability )
+	if current_stack then
+		caster:SetModifierStackCount( modifierName, ability, math.ceil(current_stack * madoka_release) )
+	end
+end
+
+function madokaStack( event )
+	local caster = event.caster
+	local modifier = event.modifier
+	local madokamax = ability:GetLevelSpecialValueFor( "madokamax", ability:GetLevel() - 1 )
+	local ability = event.ability
+	local madoka_gained = 1
+
+
+	-- Set the stack up to max_souls
+	if (current_stack + madoka_gained) <= madokamax then
+		caster:SetModifierStackCount( modifier, ability, current_stack + madoka_gained )
+	else
+		caster:SetModifierStackCount( modifier, ability, madokamax )
+	end
+end
+
+function madokaDeath( event )
+	local caster = event.caster
+	local ability = event.ability
+	local modifierBuffName = "modifier_madokami_buff"
+	local modifierStackName = "modifier_madokami_stack"
+	local madokami_soul_release = ability:GetLevelSpecialValueFor( "madokami_soul_release", ability:GetLevel() - 1 )
+
+	local current_stack = caster:GetModifierStackCount( modifierStackName, ability )
+	local current_buff = caster:GetModifierStackCount( modifierBuffName, ability )
+	if current_stack then
+		caster:SetModifierStackCount( modifierName, ability, math.ceil(current_stack * madokami_soul_release) )
+	end
+	if current_buff then
+		ability:ApplyDataDrivenModifier( modifierName, ability, math.ceil(current_buff * madokami_soul_release) )
+	end
+end
+
+--[[
+	Author: Noya
+	Date: April 5, 2015
+	Adds to the modified stacks when a unit is killed, limited by a max_souls.
+	TODO: Confirm that SetModifierStackCount adds the damage instances without the need to apply shit
+]]
+function madokaSoul( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local maxStack = ability:GetLevelSpecialValueFor("madokami_max_souls", (ability:GetLevel() - 1))
+	local modifierCount = caster:GetModifierCount()
+	local currentStack = 0
+	local modifierBuffName = "modifier_madokami_buff"
+	local modifierStackName = "modifier_madokami_stack"
+	local modifierName
+
+	-- Always remove the stack modifier
+	caster:RemoveModifierByName(modifierStackName) 
+
+	-- Counts the current stacks
+	for i = 0, modifierCount do
+		modifierName = caster:GetModifierNameByIndex(i)
+
+		if modifierName == modifierBuffName then
+			currentStack = currentStack + 1
+		end
+	end
+
+	-- Remove all the old buff modifiers
+	for i = 0, currentStack do
+		print("Removing modifiers")
+		caster:RemoveModifierByName(modifierBuffName)
+	end
+
+	-- Always apply the stack modifier 
+	ability:ApplyDataDrivenModifier(caster, caster, modifierStackName, {})
+
+	-- Reapply the maximum number of stacks
+	if currentStack >= maxStack then
+		caster:SetModifierStackCount(modifierStackName, ability, maxStack)
+
+		-- Apply the new refreshed stack
+		for i = 1, maxStack do
+			ability:ApplyDataDrivenModifier(caster, caster, modifierBuffName, {})
+		end
+	else
+		-- Increase the number of stacks
+		currentStack = currentStack + 1
+
+		caster:SetModifierStackCount(modifierStackName, ability, currentStack)
+
+		-- Apply the new increased stack
+		for i = 1, currentStack do
+			ability:ApplyDataDrivenModifier(caster, caster, modifierBuffName, {})
+		end
+	end
+end

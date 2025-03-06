@@ -1,0 +1,202 @@
+ function geass5( params )
+	local ability = params.ability
+	local agility_damage_multiplier = ability:GetLevelSpecialValueFor("attack_damage", ability:GetLevel() - 1) / 100
+
+	ApplyDamage({victim = params.target, attacker = params.caster, damage = params.target:GetAttackCapability() * agility_damage_multiplier, damage_type = ability:GetAbilityDamageType()})
+end
+
+
+
+--[[
+	Author: kritth
+	Date: 09.01.2015
+	Calculating the damage for arcane bolt
+]]
+function geass( keys )
+	-- Variables
+	local caster = keys.caster
+	local target = keys.target
+	local ability = keys.ability
+	local multiplier = ability:GetLevelSpecialValueFor( "int_multiplier", ability:GetLevel() - 1 )
+	local intelligence = target:GetAttackDamage()
+	local damageType = ability:GetAbilityDamageType() 
+	
+
+	
+	-- Deal damage
+	local damageTable = {
+		victim = target,
+		attacker = caster,
+		damage = intelligence * multiplier,
+		damage_type = damageType,
+	}
+	ApplyDamage( damageTable )
+	print(caster:GetUnitName())
+  print(target:GetUnitName())
+end
+
+function zhanshu( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local ability_level = ability:GetLevel() - 1
+	local zeroleader = "zeroleader"
+	local fallground = "fallground"
+	local strike = "strike"
+	local Grail = "Grail"
+	local zero = "zero"
+	local modifier_zeroleader = "modifier_zeroleader"
+	local modifier_strike_2 = "modifier_strike_2"
+	local modifier_fallground = "modifier_fallground"
+	local modifier_Grail_2 = "modifier_Grail_2"
+	local modifier_zero = "modifier_zero"
+	
+if caster:HasModifier( modifier_zeroleader ) then
+	caster:SwapAbilities(strike, zeroleader, true, false) 
+	caster:RemoveModifierByName(modifier_zeroleader) 
+	ability:ApplyDataDrivenModifier(caster, caster, modifier_strike_2, {})
+
+			elseif caster:HasModifier( modifier_strike_2 ) then
+	caster:SwapAbilities(fallground, strike, true, false) 
+	caster:RemoveModifierByName(modifier_strike_2) 
+	ability:ApplyDataDrivenModifier(caster, caster, modifier_fallground, {})
+			elseif caster:HasModifier( modifier_fallground ) then
+				caster:SwapAbilities(Grail, fallground, true, false) 
+	      caster:RemoveModifierByName(modifier_fallground) 
+	      ability:ApplyDataDrivenModifier(caster, caster, modifier_Grail_2, {})
+	    elseif caster:HasModifier( modifier_Grail_2 ) then
+				caster:SwapAbilities(zero, Grail, true, false) 
+	      caster:RemoveModifierByName(modifier_Grail_2) 
+	      ability:ApplyDataDrivenModifier(caster, caster, modifier_zero, {})
+	    elseif caster:HasModifier( modifier_zero ) then
+	    caster:SwapAbilities(zeroleader, zero, false) 
+	    caster:RemoveModifierByName(modifier_zero) 
+	    ability:ApplyDataDrivenModifier(caster, caster, modifier_zeroleader, {})
+	end
+
+
+print(caster:GetUnitName())
+
+end
+
+function LevelUpAbilityleloch( event )
+	local caster = event.caster
+	local this_ability = event.ability		
+	local this_abilityName = this_ability:GetAbilityName()
+	local this_abilityLevel = this_ability:GetLevel()
+
+	-- The ability to level up
+	local ability_name_1 = event.ability_name_1
+	local ability_name_2 = event.ability_name_2
+	local ability_name_3 = event.ability_name_3
+	local ability_name_4 = event.ability_name_4
+	local ability_handle_1 = caster:FindAbilityByName(ability_name_1)	
+	local ability_handle_2 = caster:FindAbilityByName(ability_name_2)	
+	local ability_handle_3 = caster:FindAbilityByName(ability_name_3)	
+	local ability_handle_4 = caster:FindAbilityByName(ability_name_4)	
+	local ability_level_1 = ability_handle_1:GetLevel()
+	local ability_level_2 = ability_handle_2:GetLevel()
+	local ability_level_3 = ability_handle_3:GetLevel()
+	local ability_level_4 = ability_handle_4:GetLevel()
+	local one = 1
+	
+
+
+	-- Check to not enter a level up loop
+	if ability_level_1 ~= this_abilityLevel then
+		ability_handle_1:SetLevel(this_abilityLevel)
+	end
+	if ability_level_2 ~= this_abilityLevel then
+		ability_handle_2:SetLevel(this_abilityLevel)
+	end
+	if ability_level_3 ~= this_abilityLevel then
+		ability_handle_3:SetLevel(this_abilityLevel)
+	end
+	if ability_level_4 ~= this_abilityLevel then
+		ability_handle_4:SetLevel(this_abilityLevel)
+	end
+end
+
+function Vacuum( keys )
+	local caster = keys.caster
+	local target = keys.target
+	local target_location = target:GetAbsOrigin()
+	local ability = keys.ability
+	local ability_level = ability:GetLevel() - 1
+
+	-- Ability variables
+	local duration = ability:GetLevelSpecialValueFor("duration", ability_level)
+	local radius = ability:GetLevelSpecialValueFor("radius", ability_level)
+	local vacuum_modifier = keys.vacuum_modifier
+	local remaining_duration = duration - (GameRules:GetGameTime() - target.vacuum_start_time)
+
+	-- Targeting variables
+	local target_teams = ability:GetAbilityTargetTeam() 
+	local target_types = ability:GetAbilityTargetType() 
+	local target_flags = ability:GetAbilityTargetFlags() 
+
+	local units = FindUnitsInRadius(caster:GetTeamNumber(), target_location, nil, radius, target_teams, target_types, target_flags, FIND_CLOSEST, false)
+
+	-- Calculate the position of each found unit
+	for _,unit in ipairs(units) do
+		local unit_location = unit:GetAbsOrigin()
+		local vector_distance = target_location - unit_location
+		local distance = (vector_distance):Length2D()
+		local direction = (vector_distance):Normalized()
+
+		-- Check if its a new vacuum cast
+		-- Set the new pull speed if it is
+		if unit.vacuum_caster ~= target then
+			unit.vacuum_caster = target
+			-- The standard speed value is for 1 second durations so we have to calculate the difference
+			-- with 1/duration
+			unit.vacuum_caster.pull_speed = distance * 1/duration * 1/30
+		end
+
+		-- Apply the stun and no collision modifier then set the new location
+		ability:ApplyDataDrivenModifier(caster, unit, vacuum_modifier, {duration = remaining_duration})
+		unit:SetAbsOrigin(unit_location + direction * unit.vacuum_caster.pull_speed)
+
+	end
+end
+
+--[[Author: Pizzalol
+	Date: 03.04.2015.
+	Track the starting vacuum time]]
+function VacuumStart( keys )
+	local target = keys.target
+
+	target.vacuum_start_time = GameRules:GetGameTime()
+end
+
+function zero( keys )
+	local caster = keys.caster
+	local target = keys.target
+
+	-- Clear the force attack target
+	target:SetForceAttackTarget(nil)
+
+	-- Give the attack order if the caster is alive
+	-- otherwise forces the target to sit and do nothing
+	if caster:IsAlive() then
+		local order = 
+		{
+			UnitIndex = target:entindex(),
+			OrderType = DOTA_UNIT_ORDER_ATTACK_TARGET,
+			TargetIndex = caster:entindex()
+		}
+
+		ExecuteOrderFromTable(order)
+	else
+		target:Stop()
+	end
+
+	-- Set the force attack target to be the caster
+	target:SetForceAttackTarget(caster)
+end
+
+-- Clears the force attack target upon expiration
+function zeroEnd( keys )
+	local target = keys.target
+
+	target:SetForceAttackTarget(nil)
+end

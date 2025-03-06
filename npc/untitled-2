@@ -1,0 +1,25 @@
+"OnUpgrade"
+		{
+			"RunScript"
+			{
+				"Target"	"CASTER"
+				"Function"	"LevelUpAbility"
+				"ScriptFile"	"heroes/hero_shana/shana.lua"
+				"ability_name"	"Conviction"
+				"ability_name3"	"covsky"
+				"ability_name2"	"phoenix_sun_ray_stop_datadriven"
+			}
+		}
+
+        "OnUpgrade"
+		{
+			"RunScript"
+			{
+				"Target"	"CASTER"
+				"ability_name"	"Conviction"
+				"ability_name2"	"covearth"
+				"ability_name3"	"phoenix_sun_ray_stop_datadriven"
+				"ScriptFile"	"scripts/vscripts/heroes/hero_shana/shana.lua"
+				"Function"	"LevelUpAbility"
+			}
+		}
