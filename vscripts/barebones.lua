@@ -535,8 +535,8 @@ end
 
 -- A player leveled up an ability
 function GameMode:OnPlayerLearnedAbility(keys)
-  print('[BAREBONES] OnPlayerLearnedAbility')
-  PrintTable(keys)
+  -- print('[BAREBONES] OnPlayerLearnedAbility')
+  -- PrintTable(keys)
 
   local player = EntIndexToHScript(keys.player)
   local abilityname = keys.abilityname

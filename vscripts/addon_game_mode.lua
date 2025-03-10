@@ -259,8 +259,9 @@ end
 function InitHero(hero)
        Timers:CreateTimer(0.5, function()
               InitHeroTrig(hero)
-              Talents.OnUnitCreate(hero)
-       end)
+              --Talents.OnUnitCreate(hero)
+       end
+)
 
        --print(hero:GetUnitName()..hero:GetModelScale())
 end
