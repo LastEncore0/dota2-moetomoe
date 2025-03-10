@@ -2597,28 +2597,12 @@
 				"ThinkInterval"	"%tick"
 			}
 		}
-		"AbilitySpecial"
+		"AbilityValues"
 		{
-			"01"
-			{
-				"var_type"	"FIELD_INTEGER"
-				"radius"	"450 550 650 750"
-			}
-			"02"
-			{
-				"var_type"	"FIELD_INTEGER"
-				"time"	"5.0"
-			}
-			"03"
-			{
-				"var_type"	"FIELD_INTEGER"
-				"heal"	"20 30 40 50"
-			}
-			"04"
-			{
-				"var_type"	"FIELD_FLOAT"
-				"tick"	"0.5"
-			}
+			"radius"	"450 550 650 750"
+			"time"	"5.0"
+			"heal"	"20 30 40 50"
+			"tick"	"0.5"
 		}
 	}
 
