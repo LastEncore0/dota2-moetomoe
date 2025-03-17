@@ -897,6 +897,7 @@ function CastSunRay(event)
 	local ability                    = event.ability
 	local this_abilityLevel          = ability:GetLevel()
 	local pathLength                 = event.path_length
+	print("pathLength",pathLength)
 	local numThinkers                = event.num_thinkers
 	local thinkerStep                = event.thinker_step
 	local thinkerRadius              = event.thinker_radius
@@ -917,13 +918,13 @@ function CastSunRay(event)
 	-- Create thinkers
 	local vThinkers = {}
 	for i = 1, numThinkers do
-		local thinker = CreateUnitByName("npc_dota_invisible_vision_source", casterOrigin, false, caster, caster,
-			caster:GetTeam())
+		local thinker = CreateUnitByName("npc_dota_invisible_vision_source", casterOrigin, false, caster, caster,caster:GetTeam())
+		print("thinker",thinker:GetUnitName())
 		vThinkers[i] = thinker
 
 		thinker:SetDayTimeVisionRange(thinkerRadius)
 		thinker:SetNightTimeVisionRange(thinkerRadius)
-
+		print("modifierThinkerName",modifierThinkerName)
 		ability:ApplyDataDrivenModifier(caster, thinker, modifierThinkerName, {})
 	end
 
@@ -1177,9 +1178,10 @@ function CheckForCollision(event)
 	damage = damage * tickInterval
 
 	-- Check team
-	local isEnemy = caster:IsOpposingTeam(target:GetTeamNumber())
+	-- local isEnemy = caster:IsOpposingTeam(target:GetTeamNumber())
 
-	if isEnemy then
+
+	if caster:GetTeamNumber() ~= target:GetTeamNumber() then
 		-- Remove HP
 		ApplyDamage({
 			victim      = target,

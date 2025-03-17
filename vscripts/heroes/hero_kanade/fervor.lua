@@ -404,20 +404,27 @@ function CheckBackstab(params)
 	local ability = params.ability
 	local caster = params.caster
 	local target = params.target
-	local attackspeed = caster:GetAttackSpeed()
-	print(caster:GetAttackSpeed())
+	local base_attack_time = caster:GetBaseAttackTime()
+    local attackspeed = 1 / base_attack_time
+	print(attackspeed)
 	-- Get the maximum attack speed for units.
-	local attackspeeddamage = 1.6 * caster:GetAttackSpeed() - 1
+	local attackspeeddamage = 1.6 * attackspeed - 1
 	if attackspeeddamage < 0 then
-		local attackspeeddamage = 0
+		attackspeeddamage = 0
 	end
+	print("attackspeeddamage =", attackspeeddamage)
 	local agility_damage_multiplier = ability:GetLevelSpecialValueFor("agility_damage", ability:GetLevel() - 1)
 	local agility_damage_echo_sabre = ability:GetLevelSpecialValueFor("echo_sabre", ability:GetLevel() - 1)
 	local sonic_damge = attackspeeddamage * agility_damage_echo_sabre
 	local damge = attackspeeddamage * agility_damage_multiplier
 	if caster:HasTalent("kanade_talent_2") then
-		ApplyDamage({ victim = target, attacker = caster, damage = sonic_damge, damage_type = ability
-		:GetAbilityDamageType() })
+		ApplyDamage({
+			victim = target,
+			attacker = caster,
+			damage = sonic_damge,
+			damage_type = ability
+				:GetAbilityDamageType()
+		})
 		print("sonic_damge =", sonic_damge)
 	else
 		ApplyDamage({ victim = target, attacker = caster, damage = damge, damage_type = ability:GetAbilityDamageType() })
@@ -790,6 +797,11 @@ function ApplyEchoDamage(keys)
 
 	local echo_slam_echo_damage = ability:GetLevelSpecialValueFor("echo_slam_echo_damage", (ability:GetLevel() - 1))
 
-	ApplyDamage({ victim = target, attacker = caster, damage = echo_slam_echo_damage, damage_type = ability
-	:GetAbilityDamageType() })
+	ApplyDamage({
+		victim = target,
+		attacker = caster,
+		damage = echo_slam_echo_damage,
+		damage_type = ability
+			:GetAbilityDamageType()
+	})
 end

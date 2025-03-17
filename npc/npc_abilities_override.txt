@@ -3032,7 +3032,7 @@
 
 	"item_harpoon"
 	{
-		"AbilityTextureName"	"handsonic5"
+		"AbilityTextureName"	"images\items\handsonic5"
 	}
 	
 	//=================================================================================================================

@@ -723,49 +723,6 @@
 		"MaxLevel"	"0"
 	}
 
-	// Rewrite of one of Invoker's empty slots
-	// Author: Rook
-	// Date: February 14, 2016
-	// Version: 6.86
-	// Type: Datadriven
-	// NOTES: This is a placeholder ability for the Invoke ability
-	//
-	// ----- FILE REQUIREMENTS -----
-	// Script files:
-	// scripts/vscripts/heroes/hero_invoker/invoke.lua
-	//
-	// KV files:
-	// scripts/npc/abilities/invoker/invoke_datadriven.txt
-	// scripts/npc/abilities/invoker/invoker_empty2_datadriven.txt
-	"saber_empty"
-	{
-		// General
-		// -------------------------------------------------------------------------------------------------------------
-		"BaseClass"	"ability_datadriven"
-		"AbilityTextureName"	"rubick_empty1"
-		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
-		"HotKeyOverride"	"D"
-		"MaxLevel"	"0"
-		"Modifiers"
-		{
-			"modifier_saber_empty"
-			{
-				"Passive"	"1"
-				"IsBuff"	"1"
-				"OnIntervalThink"
-				{
-					"RunScript"
-					{
-						"Target"	"CASTER"
-						"Function"	"avalon"
-						"ScriptFile"	"scripts/vscripts/heroes/hero_saber/saber.lua"
-					}
-				}
-				"ThinkInterval"	"0.03"
-				"IsHidden"	"1"
-			//}
-		}
-	}
 
 	// Rewrite of one of Invoker's empty slots
 	// Author: Rook
@@ -807,7 +764,7 @@
 				}
 				"ThinkInterval"	"0.03"
 				"IsHidden"	"1"
-			//}
+			}
 		}
 	}
 
@@ -839,7 +796,7 @@
 				"ScriptFile"	"heroes/hero_kuroyuki/kuroyuki.lua"
 				"Function"	"LevelUpAbility"
 				"ability_name"	"reheal"
-			//}
+			}
 		}
 	}
 
@@ -1307,7 +1264,7 @@
 	//		{
 				//"var_type"	"FIELD_INTEGER"
 				"star_eclipse_radius"	"200"
-			}
+			//}
 		}
 		// Duration
 		// -------------------------------------------------------------------------------------------------------------
@@ -1509,7 +1466,7 @@
 	//		"05"
 	//		{
 				//"var_type"	"FIELD_INTEGER"
-				"damage"	"2 2 4 6 8 10 12"
+				"damage"	"12 14 16 18 20 22 25"
 			//}
 	//		"06"
 	//		{
@@ -1685,7 +1642,7 @@
 			//"01"
 //			{
 				//"var_type"	"FIELD_INTEGER"
-				"damage"	"18 20 22 24 26 28 30"
+				"damage"	"20 23 26 29 32 35"
 			//}
 	//		"02"
 	//		{
@@ -1820,7 +1777,7 @@
 	//		{
 				//"var_type"	"FIELD_INTEGER"
 				"ManaCostPerSecond"	"25"
-				"LinkedSpecialBonus"	"special_bonus_unique_invoker_2"
+				//"LinkedSpecialBonus"	"special_bonus_unique_invoker_2"
 			//}
 		}
 	}
@@ -2987,7 +2944,7 @@
 	//		{
 				//"var_type"	"FIELD_FLOAT"
 				"soul_release"	"0.5"
-			}
+		//	}
 		}
 		"OnCastbar"	"0"
 	}
@@ -3128,7 +3085,7 @@
 	//		{
 				//"var_type"	"FIELD_INTEGER"
 				"reincarnate_time"	"3"
-			}
+			//}
 		}
 		"OnCastbar"	"0"
 	}
@@ -4711,7 +4668,7 @@
 	//		{
 				//"var_type"	"FIELD_INTEGER"
 				"shrapnel_damage"	"100 100 100 100 120 140 160"
-				"LinkedSpecialBonus"	"special_bonus_unique_morphling_1"
+				////"LinkedSpecialBonus"	"special_bonus_unique_morphling_1"
 			//}
 	//		"03"
 	//		{
@@ -4857,7 +4814,7 @@
 	//		{
 				//"var_type"	"FIELD_INTEGER"
 				"max"	"6 8 10 12"
-				"LinkedSpecialBonus"	"special_bonus_unique_troll_warlord"
+				//"LinkedSpecialBonus"	"special_bonus_unique_troll_warlord"
 			//}
 	//		"04"
 	//		{
@@ -5049,7 +5006,7 @@
 	//		{
 				//"var_type"	"FIELD_INTEGER"
 				"shrapnel_damage"	"200 300 400"
-				"LinkedSpecialBonus"	"special_bonus_unique_morphling_1"
+				//"LinkedSpecialBonus"	"special_bonus_unique_morphling_1"
 			//}
 	//		"03"
 	//		{
@@ -5225,7 +5182,7 @@
 	//		{
 				//"var_type"	"FIELD_INTEGER"
 				"shrapnel_damage"	"200 300 400"
-				"LinkedSpecialBonus"	"special_bonus_unique_morphling_1"
+				//"LinkedSpecialBonus"	"special_bonus_unique_morphling_1"
 			//}
 	//		"03"
 	//		{
@@ -5401,7 +5358,7 @@
 	//		{
 				//"var_type"	"FIELD_INTEGER"
 				"shrapnel_damage"	"200 300 400"
-				"LinkedSpecialBonus"	"special_bonus_unique_morphling_1"
+				//"LinkedSpecialBonus"	"special_bonus_unique_morphling_1"
 			//}
 	//		"03"
 	//		{
@@ -5892,7 +5849,7 @@
 					"ApplyModifier"
 					{
 						"Target"	"TARGET"
-						"ModifierName"	"modifier_phased"
+						"ModifierName"	"modifier_sun_ray_check_datadriven"
 					}
 				}
 				"States"
@@ -5907,12 +5864,13 @@
 			}
 			"modifier_sun_ray_check_datadriven"
 			{
-				"IsHidden"	"1"
+				//"IsHidden"	"1"
 				"ThinkInterval"	"%tick_interval"
 				"OnIntervalThink"
 				{
 					"RunScript"
 					{
+						"Target"	"TARGET"
 						"ScriptFile"	"heroes/hero_shana/shana.lua"
 						"Function"	"CheckForCollision"
 						"path_length"	"%beam_range"

@@ -894,12 +894,16 @@ end
 -- This function is called once when the player fully connects and becomes "Ready" during Loading
 function GameMode:OnConnectFull(keys)
   print('[BAREBONES] OnConnectFull')
-  ----PrintTable(keys)
   GameMode:CaptureGameMode()
 
   local entIndex = keys.index + 1
   -- The Player entity of the joining user
   local ply = EntIndexToHScript(entIndex)
+  
+  if ply == nil then
+    print('[BAREBONES] Warning: Player entity was nil!')
+    return
+  end
 
   -- The Player ID of the joining player
   local playerID = ply:GetPlayerID()
