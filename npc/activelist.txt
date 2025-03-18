@@ -32,6 +32,7 @@
 	"npc_dota_hero_centaur"	"1"
 	"npc_dota_hero_antimage"	"1"
     "npc_dota_hero_tinker"	"1"
+	"npc_dota_hero_queenofpain"	"0"
     "npc_dota_hero_nevermore"	"1"
 	"npc_dota_hero_faceless_void"	"1"
 	"npc_dota_hero_treant"	"0"
