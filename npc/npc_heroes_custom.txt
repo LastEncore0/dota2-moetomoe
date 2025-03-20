@@ -1487,7 +1487,7 @@
 		"Ability19"	"special_bonus_20_bash_2"
 		"ProjectileModel"	"particles/decompiled_particles/units/heroes/hero_gyrocopter/gyro_base_attack.vpcf"
 		"GameSoundsFile"		"soundevents/game_sounds_heroes/game_sounds_tinker.vsndevts"
-		"VoiceFile"		"soundevents/voscripts/game_sounds_vo_queenofpain.vsndevts"
+		// "VoiceFile"		"soundevents/voscripts/game_sounds_vo_queenofpain.vsndevts"
 		"ProjectileSpeed"	"1500"
 		"StatusHealth"	"200"
 		"StatusHealthRegen"	"1.4"

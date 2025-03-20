@@ -15,7 +15,7 @@
 	"npc_dota_hero_winter_wyvern" "1"
 	"npc_dota_hero_magnataur" "1"
 	"npc_dota_hero_ember_spirit"	"1"
-	//"npc_dota_hero_templar_assassin" "1"
+	"npc_dota_hero_templar_assassin" "1"
 	"npc_dota_hero_storm_spirit"	"1"
 	"npc_dota_hero_clinkz"	"1"
 	"npc_dota_hero_zuus"	"1"
